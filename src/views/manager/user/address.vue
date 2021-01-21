@@ -24,17 +24,14 @@ export default {
         return {
             show:true,
             userId:'',
-            chosenAddressId: '1',
+            chosenAddressId: '2228',
         }
     },
     created() {
         this.load()
-        this.mark()
     },
-    updated() {
-        this.load()
-        this.mark()
-    },
+
+    
     computed:{
         ...mapState('user',['addressInfo']),
         ...mapGetters('user', {
@@ -62,22 +59,7 @@ export default {
             })
         },
 
-        mark(){
-            this.addressInfo.map((item)=>{
-                let add={}
-                add.id=item.id
-                add.province=item.province
-                add.city=item.city
-                add.area=item.area
-                add.address_local=item.address
-                add.address=item.province+item.city+item.area+item.address
-                add.tel=item.telephone
-                add.name=this.username
-                add.isDefault=false
-                this.addressList.push(add)
-            })
-            localStorage.setItem('addressList',JSON.stringify(this.addressList))
-        },
+       
 
         // 返回
         goBack(){

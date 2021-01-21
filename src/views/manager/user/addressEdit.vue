@@ -24,13 +24,19 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapState,mapGetters} from 'vuex'
 export default {
    data() {
     return {
       index:'',
       addInfo :{},
     };
+  },
+
+  computed:{
+       ...mapGetters('user', {
+            addressList:'addressList'
+  })
   },
 
   created(){
@@ -44,25 +50,25 @@ export default {
         },
         load(){
             let index = this.$route.query.index
-            console.log(index);
-            this.addInfo = JSON.parse(localStorage.getItem('addressList'))[index]
-            this.addInfo.address=this.addInfo.address_local
+            this.addInfo = this.addressList[index]
+            // console.log(this.addInfo,"this.addInfo");
+            this.addInfo.address=this.addInfo.address
             this.addInfo.telephone=this.addInfo.tel
             this.addInfo.customerId=localStorage.getItem('userId')
         },
 
-    onSave() {
-        console.log(this.addInfo,'this.addInfo');
-      this.addressAddOrEdit(this.addInfo).then(r=>{
-          console.log("=================",r);
-          this.$router.push({path:'/home/user/address'})
-
+        onSave() {
+            console.log(this.addInfo,'this.addInfo');
+            this.addressAddOrEdit(this.addInfo).then(r=>{
+            console.log("修改的结果是：",r);
+            this.$router.push({path:'/home/user/address'})
       })
     },
-    onDelete() {
-        this.deleteAddress({id:this.addInfo.id}).then(r=>{
+        onDelete() {
+            this.deleteAddress({id:this.addInfo.id}).then(r=>{
             console.log("删除的结果是：",r);
-        }
+            this.$router.push({path:'/home/user/address'})
+            }
         )
     },
     

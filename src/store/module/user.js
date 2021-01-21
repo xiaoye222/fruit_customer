@@ -8,6 +8,8 @@ export default {
     },
     getters:{
         addressList:(state,getters)=>{
+            // let user=rootState.login.user
+            let username=localStorage.getItem("username")
             return state.addressInfo.map((item)=>{
                 return {
                     id:item.id,
@@ -16,8 +18,8 @@ export default {
                     area:item.area,
                     address:item.province+item.city+item.area+item.address,
                     tel:item.telephone,
-                    name:this.username,
-                    // isDefault:false
+                    name:username,
+                    isDefault:false
                 }
             })
 
