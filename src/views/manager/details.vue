@@ -13,7 +13,6 @@
                     </van-sidebar>
                 </van-col>
                 <van-col span="19">
-                
                     <van-card v-for='item in newArr' :key='item.id'
                     :price="item.price"
                     :desc="item.description"
@@ -40,6 +39,7 @@ export default {
         return {
             activeKey:0,
             newArr:[],
+            userId:''
         }
     },
      
@@ -48,15 +48,22 @@ export default {
         ...mapGetters('order', {
             cartProducts: 'cartProducts', // 购物车的商品
             totalPrice: 'cartTotalPrice' // 购物车商品的总价格
+        }),
+        ...mapGetters('user', {
+            addressList:'addressList'
     })
+        
+
     },
     created(){
         this.activeKey = this.$route.query.index
+        this.userId=localStorage.getItem('userId')
         this.load()
     },
     methods:{
         ...mapActions('shouye',['loadCategory','loadProduct']),
         ...mapActions('order',['addProductToCart']),
+        ...mapActions('user',['findAddressByCustomerId']),
         test(obj){
             let oid
             if(obj.isTrue){
@@ -89,9 +96,15 @@ export default {
         },
 
         onSubmit(){
-            console.log(this.$route.query,"￥route");
-            console.log("提交订单");
-            console.log(localStorage.getItem('userId'))
+            // console.log(this.$route.query,"$route.query");
+            // console.log("提交订单",this.addressList);     
+
+            // 确认订单页面需要地址信息，如果未曾访问地址页，地址列表为空
+            // 判断地址列表为空，就去发送请求获得地址信息
+            if(this.addressList.length==0){
+               this.findAddressByCustomerId({id:this.userId}).then(r=>{
+               this.chosenAddressId=this.$store.state.user.defaultAddressId
+            })}
             this.$router.push({path:'/order/confirm'})
         }
 

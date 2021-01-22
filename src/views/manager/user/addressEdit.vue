@@ -7,7 +7,7 @@
             @click-left="goBack"
             />  
 
-         <div class="content">
+         <div class="content">           
             <van-field v-model="addInfo.province" label="省" />
             <van-field v-model="addInfo.city" label="市" />
             <van-field v-model="addInfo.area" label="区" />
@@ -49,15 +49,15 @@ export default {
             this.$router.go(-1)
         },
         load(){
-            let index = this.$route.query.index
-            this.addInfo = this.addressList[index]
-            // console.log(this.addInfo,"this.addInfo");
-            this.addInfo.address=this.addInfo.address
+            let item = this.$route.query.item
+            this.addInfo = item
+            this.addInfo.address=this.addInfo.add
             this.addInfo.telephone=this.addInfo.tel
             this.addInfo.customerId=localStorage.getItem('userId')
         },
 
         onSave() {
+            // this.addInfo.address=this.addInfo.add
             console.log(this.addInfo,'this.addInfo');
             this.addressAddOrEdit(this.addInfo).then(r=>{
             console.log("修改的结果是：",r);

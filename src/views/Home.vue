@@ -14,6 +14,10 @@ export default {
     return {
       active:0
     }
+  },
+
+  computed:{
+  
   }
 }
 </script>

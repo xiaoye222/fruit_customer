@@ -12,6 +12,7 @@
             default-tag-text="默认"
             @add="onAdd"
             @edit="onEdit"
+            @select="onSelect"
             />
       
     </div>
@@ -24,11 +25,12 @@ export default {
         return {
             show:true,
             userId:'',
-            chosenAddressId: '2228',
+            chosenAddressId: '',
         }
     },
     created() {
         this.load()
+        console.log(this.$store.state.user,"created");
     },
 
     
@@ -41,13 +43,20 @@ export default {
     methods:{
         ...mapActions('user',['findAddressByCustomerId']),
     
-
         onAdd() {
-             console.log('新增地址');
             this.$router.push({path:'/home/user/address/add'})
         },
         onEdit(item, index) {
-            this.$router.push({path:'/home/user/address/edit',query:{index:index}})
+            this.$router.push({path:'/home/user/address/edit',query:{item:item,index:index}})
+        },
+        onSelect(item, index){
+            this.$store.state.user.defaultAddressId=item.id
+            // item.isDefault=true
+            // this.$router.go(-1)
+            // 点击默认选择
+
+            // find(item => item.id === id)
+
         },
 
         // 加载用户相关信息
@@ -56,7 +65,9 @@ export default {
             this.username = localStorage.getItem('username')
             this.findAddressByCustomerId({id:this.userId}).then(r=>{
                console.log(this.addressInfo);
+               this.chosenAddressId=this.$store.state.user.defaultAddressId
             })
+           
         },
 
        

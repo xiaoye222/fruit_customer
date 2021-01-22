@@ -1,4 +1,4 @@
-import { post_json, get, post } from '@/http/axios'
+import { post_obj_array, get, post } from '@/http/axios'
 import { iteratee } from 'lodash'
 export default {
     namespaced: true,
@@ -17,6 +17,18 @@ export default {
             number: 1
         })
     },
+
+
+        // 从购物车里删除商品
+        delProductFromCart(state,{id}){
+            for(let i = 0; i < state.items.length; i++){
+                if(state.items[i].id === id){
+                    console.log(state.items[i],"删除的项是");
+                    state.items.splice(i,1);
+                }
+            }
+            // state.items.find()
+        },
 
     // 商品再次被添加到购物车，修改商品数量
         updateItemNumber (state, { id,number }) {
@@ -37,7 +49,9 @@ export default {
                   productId: cart_product.id,
                   productName: cart_product.name,
                   price:cart_product.price,
-                  number:number
+                  number:number,
+                  photo:cart_product.photo,
+                  description:cart_product.description
                 }
             })
         },
@@ -57,19 +71,28 @@ export default {
     // 添加到购物车
     // 【注意】这里没有异步，为何要用 actions ？？？—— 因为要整合多个 mutation
     //        mutation 是原子，其中不可再进行 commit ！！！
-        addProductToCart({ commit, state },product){       
+        addProductToCart({ commit, state },product){ 
+            
+            //   检查购物车里是有否该商品
             const cartItem = state.items.find(item => item.id === product.id)
             if (!cartItem) {
                 // 初次添加到购物车
                 commit('pushProductToCart', { id: product.id })
               } else {
-                // 修改购物车数量
-                commit('updateItemNumber', product)
+
+                if(product.number===0){
+                    //数量为0， 将该物品从购物车删除
+                    commit('delProductFromCart', { id: product.id })
+                }else{
+                    //数量不为0，增加或改变购物车里某商品数量
+                    commit('updateItemNumber', product)
+                }
+                
               }
         },
 
         async saveOrder(context,data){
-            let res = await post('/order/save',data)
+            let res = await post_obj_array('/order/save',data)
             console.log(res, '保存订单结果')
             return res
         }
