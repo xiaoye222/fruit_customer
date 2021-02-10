@@ -55,6 +55,7 @@ export default {
         if(r.status==200){
         Notify({ type: 'success', message: '新增成功' });
         }
+        this.$router.push({path:'/home/user/address'})
       })
     },
     

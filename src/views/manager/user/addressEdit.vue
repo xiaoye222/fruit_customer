@@ -7,7 +7,7 @@
             @click-left="goBack"
             />  
 
-         <div class="content">
+         <div class="content">           
             <van-field v-model="addInfo.province" label="省" />
             <van-field v-model="addInfo.city" label="市" />
             <van-field v-model="addInfo.area" label="区" />
@@ -24,13 +24,19 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapState,mapGetters} from 'vuex'
 export default {
    data() {
     return {
       index:'',
       addInfo :{},
     };
+  },
+
+  computed:{
+       ...mapGetters('user', {
+            addressList:'addressList'
+  })
   },
 
   created(){
@@ -43,26 +49,26 @@ export default {
             this.$router.go(-1)
         },
         load(){
-            let index = this.$route.query.index
-            console.log(index);
-            this.addInfo = JSON.parse(localStorage.getItem('addressList'))[index]
-            this.addInfo.address=this.addInfo.address_local
+            let item = this.$route.query.item
+            this.addInfo = item
+            this.addInfo.address=this.addInfo.add
             this.addInfo.telephone=this.addInfo.tel
             this.addInfo.customerId=localStorage.getItem('userId')
         },
 
-    onSave() {
-        console.log(this.addInfo,'this.addInfo');
-      this.addressAddOrEdit(this.addInfo).then(r=>{
-          console.log("=================",r);
-          this.$router.push({path:'/home/user/address'})
-
+        onSave() {
+            // this.addInfo.address=this.addInfo.add
+            console.log(this.addInfo,'this.addInfo');
+            this.addressAddOrEdit(this.addInfo).then(r=>{
+            console.log("修改的结果是：",r);
+            this.$router.push({path:'/home/user/address'})
       })
     },
-    onDelete() {
-        this.deleteAddress({id:this.addInfo.id}).then(r=>{
+        onDelete() {
+            this.deleteAddress({id:this.addInfo.id}).then(r=>{
             console.log("删除的结果是：",r);
-        }
+            this.$router.push({path:'/home/user/address'})
+            }
         )
     },
     

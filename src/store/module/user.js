@@ -4,23 +4,31 @@ export default {
     state: {
         customerDetails: {},
         orderInfo: [],
-        addressInfo: []
+        addressInfo: [],
+        defaultAddressId:''
     },
     getters:{
         addressList:(state,getters)=>{
+            let username=localStorage.getItem("username")
             return state.addressInfo.map((item)=>{
                 return {
                     id:item.id,
                     province:item.province,
                     city:item.city,
                     area:item.area,
+                    add:item.address,
                     address:item.province+item.city+item.area+item.address,
                     tel:item.telephone,
-                    name:this.username,
+                    name:username,
                     // isDefault:false
                 }
             })
+        },
 
+        selectedAddress:(state,getters)=>{
+            // console.log("getters.addressList",getters.addressList);
+            // console.log("state.defaultAddressId",state.defaultAddressId);
+            return getters.addressList.find(item=>item.id==state.defaultAddressId)
         }
     },
     mutations: {
@@ -32,6 +40,12 @@ export default {
         },
         loadAddressByCustomerId(state, data) {
             state.addressInfo = data
+            // 如果没有选中地址，就默认为第一个地址 避免更改地址，即选中地址后，仍旧每次都改为第一个地址
+            // console.log(state.defaultAddressId,"==========state.defaultAddressId");
+            if(!state.defaultAddressId){
+                state.defaultAddressId=data[0].id
+            }
+            
         }
     },
     actions: {
@@ -39,8 +53,8 @@ export default {
         //根据id查找顾客详情
         async loadCustomerById(context, data) {
             let res = await get('/customer/findCustomerById', data)
-            console.log("根据id查询到的顾客详情是---------");
-            console.log(res);
+            // console.log("根据id查询到的顾客详情是---------");
+            // console.log(res);
             context.commit('changeDetails', res.data)
             return res
         },
@@ -48,8 +62,8 @@ export default {
         //根据顾客id查询顾客相关订单信息
         async findOrderByCustomerId(context, data) {
             let res = await post('/order/queryPage', data)
-            console.log("根据顾客id查询相关订单信息是---------");
-            console.log(res);
+            // console.log("根据顾客id查询相关订单信息是---------");
+            // console.log(res);
             context.commit('loadOrderByCustomerId', res.data.list)
             return res
         },
@@ -57,7 +71,7 @@ export default {
         // 根据顾客id查询顾客地址信息
         async findAddressByCustomerId(context, data) {
             let res = await get('/address/findByCustomerId', data)
-                // console.log("地址信息", res.data);
+            // console.log("地址信息", res.data);
             context.commit('loadAddressByCustomerId', res.data)
             return res
         },

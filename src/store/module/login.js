@@ -19,7 +19,7 @@ export default {
         async getInfo(context, data) {
             let res = await get('/user/info', { token: data })
             context.commit('changeUser', res.data)
-            console.log("userinfo", res.data);
+            // console.log("userinfo", res.data);
             localStorage.setItem('img', res.data.avatar)
             localStorage.setItem('userId', res.data.id)
             localStorage.setItem('username', res.data.name)
