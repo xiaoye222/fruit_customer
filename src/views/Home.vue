@@ -21,3 +21,12 @@ export default {
   }
 }
 </script>
+
+
+<style lang='scss' scoped>
+// 此处样式设置无效
+     .home{
+      //  border: 10px solid palegreen;
+      padding-bottom: 50px;
+    }
+</style>

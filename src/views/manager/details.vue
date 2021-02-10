@@ -45,7 +45,7 @@ export default {
      
     computed:{
         ...mapState('shouye',['category','product']),
-        ...mapGetters('order', {
+        ...mapGetters('cartOrder', {
             cartProducts: 'cartProducts', // 购物车的商品
             totalPrice: 'cartTotalPrice' // 购物车商品的总价格
         }),
@@ -62,7 +62,7 @@ export default {
     },
     methods:{
         ...mapActions('shouye',['loadCategory','loadProduct']),
-        ...mapActions('order',['addProductToCart']),
+        ...mapActions('cartOrder',['addProductToCart']),
         ...mapActions('user',['findAddressByCustomerId']),
         test(obj){
             let oid

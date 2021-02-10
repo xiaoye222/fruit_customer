@@ -62,7 +62,7 @@ export default {
     },
     computed:{
         ...mapState('user',['defaultAddressId']),
-        ...mapGetters('order', {
+        ...mapGetters('cartOrder', {
             cartProducts: 'cartProducts', // 购物车的商品
             totalPrice: 'cartTotalPrice' // 购物车商品的总价格
         }),
@@ -74,7 +74,7 @@ export default {
     
 
     methods:{
-        ...mapActions('order',['addProductToCart','saveOrder']),
+        ...mapActions('cartOrder',['addProductToCart','saveOrder']),
         goBack(){
             this.$router.go(-1)
         },
@@ -89,8 +89,8 @@ export default {
         },
 
         onSubmit(){
-            console.log(this.cartProducts,"提交订单");
-            console.log(this.selectedAddress,"提交订单");
+            // console.log(this.cartProducts,"提交订单");
+            // console.log(this.selectedAddress,"提交订单");
             let orderLines=this.cartProducts.map((item)=>{
                 return {
                     productId:item.productId,
@@ -103,6 +103,8 @@ export default {
                 customerId:this.userId,
                 addressId:this.selectedAddress.id,
                 orderLines
+            }).then(r=>{
+                this.$router.push({path:'/home/order'})
             })
 
         }
@@ -111,7 +113,7 @@ export default {
 }
 </script>
 
-// <style lang='scss' scoped>
+ <style lang='scss' scoped>
         .margin_top{
             margin-top: 50px;
         }
@@ -125,29 +127,4 @@ export default {
                 text-indent:0.5rem;
         }
     }
-
-        
-
-//     .orderConfirm{
-//         border:1px solid purple;
-//     }
-//     .content{
-//         // border: 1px solid black;
-//         padding: 10px 0;
-//         div{
-//             display: flex;
-//             justify-content: center;
-//             margin: 20px auto;
-//         }
-//         .van-button__content{
-//             margin: 0 auto;
-//         }
-
-//         .van-button--danger{
-//           width: 80%;
-//         }
-
-        
-       
-//     }
-// </style>
+</style>
