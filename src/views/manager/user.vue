@@ -17,7 +17,7 @@
         </div>
         <van-cell title="账户余额" icon="balance-o" is-link to="user/money" />
         <van-cell title="常用地址" icon="location-o" is-link to="user/address" />
-        <van-cell title="我的评论" icon="comment-o" is-link to="comment" />
+        <van-cell title="我的评论" icon="comment-o" is-link to="/comment" />
         <van-cell title="联系我们" icon="phone-o" is-link to="index" />
 
     </div>

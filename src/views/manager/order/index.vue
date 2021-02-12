@@ -6,24 +6,29 @@
 
       <van-tabs @click="onClick">
         <van-tab v-for="(value) in orderType" :key="value.id" :title="value.name">
-            <van-panel v-for="(value) in orderList" :key="value.id" title="订单编号" :desc="String(value.id)" :status="value.status" >
+            <van-panel class="margin_tb" v-for="(value) in orderList" :key="value.id" title="订单编号" :desc="String(value.id)" :status="value.status" >
                 <van-card v-for="(order) in value.orderLines" :key='order.id'
                 :num="order.number"
                 :price="order.price"
                 :title="order.product.name"
                 :thumb="order.product.photo">
                 </van-card>
-
-            <template #footer>      
-                    <van-row style="margin:10px 0">
+    
+                <van-row style="margin-top:.8em;font-size:13px">
                             <van-col offset="16" span="4">总价</van-col>
-                            <van-col span="4">¥{{value.total}}</van-col>
-                    </van-row>        
-        
-                    <van-button size="mini" v-if="value.status==='待支付'">付款</van-button>
-                    <van-button size="mini" v-if="value.status==='待确认'">确认订单</van-button>
-                    <van-button size="mini" @click="toDetail(value.id)">详情</van-button>
-            </template>
+                            <van-col span="4">¥{{value.total | curreny}}</van-col>
+                </van-row>        
+
+                <!-- 右对齐 -->
+                <van-row type="flex" justify="end" style="padding:.8em 0">
+                    <van-col span="3" ><van-button size="mini" v-if="value.status==='待支付'">付款</van-button></van-col>
+                    <van-col span="3" ><van-button size="mini" v-if="value.status==='待确认'">确认</van-button></van-col>
+                    <van-col span="3" ><van-button size="mini" @click="toDetail(value.id)">详情</van-button></van-col>
+                </van-row>
+
+                    
+                    
+                    
             </van-panel>
 
 
@@ -72,6 +77,14 @@ export default {
             
         }
     },
+    filters: {
+        curreny(data){
+                data = Number(data).toFixed(2);
+                if(data==parseInt(data)){
+                data = parseInt(data);}
+                return data;
+                },
+    },
     computed:{
         ...mapState('order',['orderDetail']),
     },
@@ -86,7 +99,7 @@ export default {
          load(){
              this.loadOrder({customerId:this.userId}).then(r=>{
                     this.orderList=r.data
-                    console.log("orderList",this.orderList);
+                    // console.log("orderList",this.orderList);
                 })
          }
          ,
@@ -97,18 +110,18 @@ export default {
              if(title==='全部'){   
                  this.loadOrder(obj).then(r=>{
                     this.orderList=r.data
-                    console.log("orderList",this.orderList);
+                    // console.log("orderList",this.orderList);
                 })
              }else{
                  obj.status=title
                  this.loadOrder(obj).then(r=>{
                      this.orderList=r.data
-                     console.log('orderList',this.orderList);
+                    //  console.log('orderList',this.orderList);
                  })
              }},
         toDetail(oid){
             this.loadOrderDetailById({id:oid}).then(r=>{
-                console.log('详情结果',r);
+                // console.log('详情结果',r);
                 this.$router.push({path:'/order/details',query:{orderDetail:this.orderDetail}})
                 
             })
@@ -116,3 +129,9 @@ export default {
     },
 }
 </script>
+
+<style >
+    .margin_tb{
+        margin: 8px 0;
+    }
+</style>

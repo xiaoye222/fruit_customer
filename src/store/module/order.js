@@ -44,7 +44,7 @@ export default {
         // 加载所有订单
         async loadOrder(context, params) {
             let res = await get('/order/query', params)
-            console.log(params);
+            // console.log(params);
             if (!params.status) {
                 context.commit('setAllOrder', res.data.list)
             } else if (params.status === '待支付') {

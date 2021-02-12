@@ -30,7 +30,7 @@ export default {
     },
     created() {
         this.load()
-        console.log(this.$store.state.user,"created");
+        // console.log(this.$store.state.user,"created");
     },
 
     
@@ -64,7 +64,7 @@ export default {
             this.userId = localStorage.getItem('userId')
             this.username = localStorage.getItem('username')
             this.findAddressByCustomerId({id:this.userId}).then(r=>{
-               console.log(this.addressInfo);
+            //    console.log(this.addressInfo);
                this.chosenAddressId=this.$store.state.user.defaultAddressId
             })
            

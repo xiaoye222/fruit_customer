@@ -19,7 +19,7 @@ export default {
         // 根据顾客id查询该顾客所有评论信息
         async findAllCommentsByCusId(context, data) {
             let res = await get('/comment/findCommentByCus', { cusId: data })
-            context.commit('AllComments', res.data.list)
+            context.commit('changeAllComments', res.data.list)
             return res
         },
 
@@ -33,6 +33,13 @@ export default {
         // 顾客编辑评论
         async saveComment(context, data) {
             let res = await post('/comment/saveOrUpdate', data)
+            return res
+        },
+
+        // 顾客根据评论id删除评论
+
+        async delCommentById(context, data) {
+            let res = await get('/comment/deleteById', data)
             return res
         }
 

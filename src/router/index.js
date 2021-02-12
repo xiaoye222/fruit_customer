@@ -64,6 +64,10 @@ const routes = [{
     },
    
     {
+      path:'/comment',
+      component:Comment
+    },
+    {
         path: '/order/confirm',
         component: OrderConfirm
     },

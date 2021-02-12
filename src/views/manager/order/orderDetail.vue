@@ -5,7 +5,8 @@
         left-text="返回"
         left-arrow
         @click-left="goBack"/>
-        <div class="order_box">
+
+        <div class="box_style">
             <van-row v-for="(item) in orderDetail.orderLines" :key="item.id">
                 <van-col span="5">物品名称</van-col>
                 <van-col span="10" offset="2">{{item.product.name}}</van-col>
@@ -24,22 +25,31 @@
                 <van-col span="17" offset="2">{{orderDetail.address.province}}{{orderDetail.address.city}}{{orderDetail.address.area}}{{orderDetail.address.address}}</van-col>
             </van-row>
         </div>
-        {{commentByOidAndCid}}
 
-        <div class="my_comments">
+    <div class="my_comments">
             <van-row>
                 <van-col span="6">我的评价:</van-col>
                 <van-col span="4" offset="14">
                     <van-button is-link @click='changeShow' type="warning" size="small" plain hairline>评价</van-button>
                 </van-col>
-
             </van-row>
-             <van-row v-for="(item) in orderDetail.orderLines" :key="item.id">
-                <!-- <van-col span="2" offset="2">评价1</van-col>
-                <van-col span="2" offset="2">评价2</van-col>
-                <van-col span="2" offset="2">评价3</van-col> -->
+    </div>
+
+        <div class="box_style" v-for="(item) in commentByOidAndCid" :key="item.id">
+            <van-row >
+                <van-col span="5">订单编号</van-col>
+                <van-col span="10" offset="2">{{item.orderId}}</van-col>
+            </van-row>
+            <van-row>
+                <van-col span="5">评论内容</van-col>
+                <van-col span="10" offset="2">{{item.content}}</van-col>
+            </van-row>
+            <van-row>
+                <van-col span="5">评论时间</van-col>
+                <van-col span="17" offset="2">{{item.commentTime | dateParse}}</van-col>
             </van-row>
         </div>
+
 
         <van-dialog v-model="show" title="我的评论" show-cancel-button :beforeClose="beforeClose">
             <van-row>
@@ -118,7 +128,7 @@ export default {
                 orderId:this.orderDetail.id,
                 content:this.comment,}
                 this.saveComment(obj).then(r=>{
-                    console.log("评论结果",r);
+                    // console.log("评论结果",r);
                    this.loadComment()
 
                 })
@@ -139,13 +149,14 @@ export default {
 
 
 <style scoped>
-.order_box{
+.box_style{
     margin: 1em 1em;
     padding: .5em;
     border-radius: 5px;
     line-height: 1.8em;
     background: #f1f1f1;
 }
+
 
 .my_comments{
     margin: 1em 1em;
