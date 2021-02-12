@@ -65,6 +65,7 @@ export default {
 
         // 查看订单详情
         async loadOrderDetailById(context, data) {
+            console.log('查看订单详情',data);
             let res = await get("/order/findById", data)
             context.commit('setOrderDetail', res.data)
             return res

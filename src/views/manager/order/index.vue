@@ -12,20 +12,18 @@
                 :price="order.price"
                 :title="order.product.name"
                 :thumb="order.product.photo">
+                </van-card>
 
-                
-
-                <template #footer>      
+            <template #footer>      
                     <van-row style="margin:10px 0">
                             <van-col offset="16" span="4">总价</van-col>
                             <van-col span="4">¥{{value.total}}</van-col>
                     </van-row>        
-                    
-                    <van-button size="mini" v-if="orderStatus==='待支付'">付款</van-button>
-                    <van-button size="mini" v-if="orderStatus==='待确认'">确认订单</van-button>
-                    <van-button size="mini">详情</van-button>
-                </template>
-                </van-card>
+        
+                    <van-button size="mini" v-if="value.status==='待支付'">付款</van-button>
+                    <van-button size="mini" v-if="value.status==='待确认'">确认订单</van-button>
+                    <van-button size="mini" @click="toDetail(value.id)">详情</van-button>
+            </template>
             </van-panel>
 
 
@@ -40,7 +38,6 @@ import {mapState,mapActions,mapGetters} from 'vuex'
 export default {
     data() {
         return {
-            orderStatus:'',
             userId:'',
             orderList:[],
             orderType:[
@@ -75,18 +72,25 @@ export default {
             
         }
     },
-    components:{
-
+    computed:{
+        ...mapState('order',['orderDetail']),
     },
     created() {
         this.userId=localStorage.getItem('userId')
+        this.load()
     },
 
     methods: {
-        ...mapActions('order',['loadOrder']),
-        
+        ...mapActions('order',['loadOrder','loadOrderDetailById']),
+        // 默认加载全部订单
+         load(){
+             this.loadOrder({customerId:this.userId}).then(r=>{
+                    this.orderList=r.data
+                    console.log("orderList",this.orderList);
+                })
+         }
+         ,
          onClick(name, title) {
-             this.orderStatus=title
              let obj={
                 customerId:this.userId,
                 }
@@ -101,13 +105,14 @@ export default {
                      this.orderList=r.data
                      console.log('orderList',this.orderList);
                  })
-             }
-            
+             }},
+        toDetail(oid){
+            this.loadOrderDetailById({id:oid}).then(r=>{
+                console.log('详情结果',r);
+                this.$router.push({path:'/order/details',query:{orderDetail:this.orderDetail}})
                 
-
-                 status:title
-
-    },
+            })
+        }
     },
 }
 </script>

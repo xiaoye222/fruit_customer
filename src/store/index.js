@@ -5,14 +5,16 @@ import shouye from './module/shouye'
 import user from './module/user'
 import cartOrder from './module/cartOrder'
 import order from './module/order'
-Vue.use(Vuex)
+import comment from './module/comment'
 
+Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {
         login,
         shouye,
         user,
         cartOrder,
-        order
+        order,
+        comment
     }
 })

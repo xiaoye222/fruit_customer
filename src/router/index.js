@@ -10,6 +10,7 @@ import Address from '../views/manager/user/address.vue'
 import AddressAdd from '../views/manager/user/addressAdd.vue'
 import AddressEdit from '../views/manager/user/addressEdit.vue'
 import OrderConfirm from '../views/manager/order/orderConfirm.vue'
+import OrderDetail from '../views/manager/order/orderDetail.vue'
 import Comment from '../views/manager/user/comment.vue'
 import Details from '../views/manager/details.vue'
 Vue.use(VueRouter)
@@ -65,6 +66,10 @@ const routes = [{
     {
         path: '/order/confirm',
         component: OrderConfirm
+    },
+    {
+        path: '/order/details',
+        component: OrderDetail,
     },
    
 
