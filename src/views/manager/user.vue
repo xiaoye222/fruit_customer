@@ -18,7 +18,12 @@
         <van-cell title="账户余额" icon="balance-o" is-link to="user/money" />
         <van-cell title="常用地址" icon="location-o" is-link to="user/address" />
         <van-cell title="我的评论" icon="comment-o" is-link to="/comment" />
-        <van-cell title="联系我们" icon="phone-o" is-link to="index" />
+        <van-cell title="联系我们" icon="phone-o" is-link to="/contact" />
+
+        <van-row type="flex" justify="center" style="padding:0.8em 0">
+                <van-button round  @click="quit()">登出</van-button>  
+        </van-row>
+              
 
     </div>
 </template>
@@ -41,7 +46,7 @@ export default {
    
     methods:{
 
-        ...mapActions('login',['getInfo']),
+        ...mapActions('login',['getInfo','logOut']),
         // 加载用户相关信息
         load(){
             this.img = localStorage.getItem('img')
@@ -49,9 +54,13 @@ export default {
             this.username = localStorage.getItem('username')
         },
 
-        logOut(){
-            this.$router.push({path:'/login'})
-        }
+        quit(){
+            this.logOut().then(r=>{
+                this.$router.push({path:'/login'})
+            })
+        },
+
+    
 
     }
 }

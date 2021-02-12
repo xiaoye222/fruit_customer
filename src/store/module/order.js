@@ -69,6 +69,17 @@ export default {
             let res = await get("/order/findById", data)
             context.commit('setOrderDetail', res.data)
             return res
+        },
+
+        // 支付订单
+        async payOrder(context,data){
+            console.log("执行力吗？");
+            let res=await get("/order/paymoney",data)
+            console.log("支付订单",res)
+            console.log("执行了呀");
+            return res
+
+            
         }
 
     }

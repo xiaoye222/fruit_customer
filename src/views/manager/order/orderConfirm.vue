@@ -2,7 +2,7 @@
     <div class="orderConfirm">
         <van-nav-bar
             title="订单确认"
-            left-text="返回"
+            left-text="取消"
             left-arrow
             @click-left="goBack"
             />
@@ -75,27 +75,9 @@ export default {
 
     methods:{
         ...mapActions('cartOrder',['addProductToCart','saveOrder']),
+
         goBack(){
-            console.log("--------",this.$route.query);
-            console.log("this.$route.query.num",this.$route.query.num);
-            console.log("废过去了",this.$route.query.product);
-            let pro=this.$route.query.product
-
-            let num=this.$route.query.num
-            // 如果从物品详情页进入订单结算页，返回物品详情页,物品详情页需要携带物品信息
-
-            console.log("看看有没有",pro);
-            if(pro){
-                this.$router.push({path:'/home/productDetail',
-                query:{
-                    product:JSON.stringify(pro),
-                    num:num}
-                })
-            }else{
-                // 
-                this.$router.go(-1)
-            }
-            
+                this.$router.push({path:'/home/order'}) 
         },
 
         // 更新购物车里的数据

@@ -35,7 +35,7 @@ import {mapState,mapActions} from 'vuex'
 export default {
   data() {
     return {
-      username: 'admin26',
+      username: '胡不喜',
       password: '123321',
     };
   },
@@ -49,7 +49,7 @@ export default {
         let obj = {
             username:this.username,
             password:this.password,
-            type:'manager'
+            type:'customer'
         }
         this.loginTo(obj).then(r=>{
             this.$router.push({path:'/home/user'})

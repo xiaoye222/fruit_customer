@@ -14,6 +14,7 @@ import OrderDetail from '../views/manager/order/orderDetail.vue'
 import Comment from '../views/manager/user/comment.vue'
 import ProductList from '../views/manager/productList.vue'
 import ProductDetail from '../views/manager/product/detail.vue'
+import Contact from '../views/manager/user/contact.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -66,6 +67,10 @@ const routes = [{
         path: '/login',
         name: 'Login',
         component: Login
+    },
+    { 
+        path: '/contact',
+        component:Contact
     },
    
     {

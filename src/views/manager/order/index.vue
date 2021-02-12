@@ -21,20 +21,18 @@
 
                 <!-- 右对齐 -->
                 <van-row type="flex" justify="end" style="padding:.8em 0">
-                    <van-col span="3" ><van-button size="mini" v-if="value.status==='待支付'">付款</van-button></van-col>
+                    <!-- <van-col span="3" ><van-button size="mini" v-if="value.status==='待支付'" @click="pay(value.id,value.total)">付款</van-button></van-col> -->
+                    <van-col span="3" ><van-button size="mini" v-if="value.status==='待支付'" >付款</van-button></van-col>
                     <van-col span="3" ><van-button size="mini" v-if="value.status==='待确认'">确认</van-button></van-col>
                     <van-col span="3" ><van-button size="mini" @click="toDetail(value.id)">详情</van-button></van-col>
                 </van-row>
-
-                    
-                    
-                    
             </van-panel>
-
-
-
         </van-tab>
      </van-tabs>
+
+    <div id="submitFormDiv">
+
+    </div>
     </div>
 </template>
 
@@ -94,7 +92,7 @@ export default {
     },
 
     methods: {
-        ...mapActions('order',['loadOrder','loadOrderDetailById']),
+        ...mapActions('order',['loadOrder','loadOrderDetailById','payOrder']),
         // 默认加载全部订单
          load(){
              this.loadOrder({customerId:this.userId}).then(r=>{
@@ -125,7 +123,34 @@ export default {
                 this.$router.push({path:'/order/details',query:{orderDetail:this.orderDetail}})
                 
             })
-        }
+        },
+
+        // pay(oid,total){
+        //     let obj={
+        //         orderid:oid,
+        //         customer_id:this.userId,
+        //         order_name:oid+"订单的支付",
+        //         order_money:total,
+        //         description:oid+"订单的支付,总价"+total
+        //     }
+
+        //     this.payOrder(obj).then(r=>{
+        //         //支付宝支付
+                
+        //         // 添加之前先删除一下，如果单页面，页面不刷新，添加进去的内容会一直保留在页面中，二次调用form表单会出错
+        //         let divForm = document.getElementsByTagName('divform')
+        //         if (divForm.length) {
+        //         document.body.removeChild(divForm[0])
+        //         }
+        //         const div=document.createElement('divform');
+        //         div.innerHTML=r; // data就是接口返回的form 表单字符串
+        //         document.body.appendChild(div);
+        //         document.forms[0].setAttribute('target', '_blank') // 新开窗口跳转
+        //         document.forms[0].submit();
+        //     }).catch(err => {
+        //         console.log(err);
+        //     })
+        // }
     },
 }
 </script>

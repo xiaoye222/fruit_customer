@@ -1,4 +1,4 @@
-import { post_json, get } from '@/http/axios'
+import { post_json, get,post } from '@/http/axios'
 export default {
     namespaced: true,
     state: {
@@ -23,6 +23,13 @@ export default {
             localStorage.setItem('img', res.data.avatar)
             localStorage.setItem('userId', res.data.id)
             localStorage.setItem('username', res.data.name)
+            return res
+        },
+
+        // 登出
+        async logOut(context, data){
+            // console.log("执行登出了");
+            let res=await post('/user/logout')
             return res
         }
     }

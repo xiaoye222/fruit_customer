@@ -25,12 +25,12 @@ export default {
         async loadProduct(context, data) {
             let res = await get('/product/findAll')
             context.commit('changeProduct', res.data)
-            console.log('loadProduct========',res)
+            // console.log('loadProduct========',res)
             return res
         },
         async loadCategory(context, data) {
             let res = await get('/category/findAll')
-            console.log("!!!!!!!Category========",res.data)
+            // console.log("!!!!!!!Category========",res.data)
             context.commit('changeCategory', res.data)
             return res
         },

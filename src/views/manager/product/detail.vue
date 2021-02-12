@@ -88,12 +88,7 @@ export default {
                this.findAddressByCustomerId({id:this.userId}).then(r=>{
                this.chosenAddressId=this.$store.state.user.defaultAddressId
             })}
-            this.$router.push({
-                path:'/order/confirm',
-                query:{
-                    product:this.productDetail,num:this.num}
-
-                })
+            this.$router.push({path:'/order/confirm'})
         }
     },
 }

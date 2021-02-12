@@ -41,7 +41,7 @@ export default {
     })
     },
     methods:{
-        ...mapActions('user',['findAddressByCustomerId']),
+        ...mapActions('user',['findAddressByCustomerId','deleteAddress']),
     
         onAdd() {
             this.$router.push({path:'/home/user/address/add'})
