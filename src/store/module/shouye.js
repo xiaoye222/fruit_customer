@@ -13,16 +13,24 @@ export default {
             state.product = data
         }
     },
+    getters:{
+        secondCategory:(state, getters, rootState)=>{
+            return state.category.filter(item=>{
+                // 返回不是父级的栏目
+                return item.parentId!==null
+            })
+        }
+    },
     actions: {
         async loadProduct(context, data) {
             let res = await get('/product/findAll')
             context.commit('changeProduct', res.data)
-            console.log(res, 'loadProduct========')
+            console.log('loadProduct========',res)
             return res
         },
         async loadCategory(context, data) {
             let res = await get('/category/findAll')
-                // console.log(res.data)
+            console.log("!!!!!!!Category========",res.data)
             context.commit('changeCategory', res.data)
             return res
         },

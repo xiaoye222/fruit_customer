@@ -76,7 +76,26 @@ export default {
     methods:{
         ...mapActions('cartOrder',['addProductToCart','saveOrder']),
         goBack(){
-            this.$router.go(-1)
+            console.log("--------",this.$route.query);
+            console.log("this.$route.query.num",this.$route.query.num);
+            console.log("废过去了",this.$route.query.product);
+            let pro=this.$route.query.product
+
+            let num=this.$route.query.num
+            // 如果从物品详情页进入订单结算页，返回物品详情页,物品详情页需要携带物品信息
+
+            console.log("看看有没有",pro);
+            if(pro){
+                this.$router.push({path:'/home/productDetail',
+                query:{
+                    product:JSON.stringify(pro),
+                    num:num}
+                })
+            }else{
+                // 
+                this.$router.go(-1)
+            }
+            
         },
 
         // 更新购物车里的数据
@@ -104,7 +123,11 @@ export default {
                 addressId:this.selectedAddress.id,
                 orderLines
             }).then(r=>{
+                this.$store.state.cartOrder.items=[]
+                // 将购物车订单内容清空
                 this.$router.push({path:'/home/order'})
+                // console.log("清空之后----------",this.$store.state.cartOrder.items,"");
+
             })
 
         }

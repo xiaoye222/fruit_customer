@@ -9,7 +9,7 @@
             <van-row>
                 <van-col span="5">
                     <van-sidebar v-model="activeKey">
-                        <van-sidebar-item @click="test({id:item.id,isTrue:false})" v-for="item in category" :key='item.id' :title="item.name" />
+                        <van-sidebar-item @click="test({id:item.id,isTrue:false})" v-for="item in secondCategory" :key='item.id' :title="item.name" />
                     </van-sidebar>
                 </van-col>
                 <van-col span="19">
@@ -27,7 +27,7 @@
                 </van-col> 
             </van-row>
             <van-row>
-            <van-submit-bar  :price="totalPrice *100" button-text="提交订单" @submit="onSubmit" />
+            <van-submit-bar  :price="totalPrice *100" button-text="结算订单" @submit="onSubmit" />
             </van-row>
             
     </div>
@@ -45,6 +45,9 @@ export default {
      
     computed:{
         ...mapState('shouye',['category','product']),
+        ...mapGetters('shouye', {
+            secondCategory: 'secondCategory', //
+        }),
         ...mapGetters('cartOrder', {
             cartProducts: 'cartProducts', // 购物车的商品
             totalPrice: 'cartTotalPrice' // 购物车商品的总价格

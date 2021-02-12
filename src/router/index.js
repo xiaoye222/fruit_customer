@@ -12,7 +12,8 @@ import AddressEdit from '../views/manager/user/addressEdit.vue'
 import OrderConfirm from '../views/manager/order/orderConfirm.vue'
 import OrderDetail from '../views/manager/order/orderDetail.vue'
 import Comment from '../views/manager/user/comment.vue'
-import Details from '../views/manager/details.vue'
+import ProductList from '../views/manager/productList.vue'
+import ProductDetail from '../views/manager/product/detail.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -52,8 +53,12 @@ const routes = [{
                 component: Money
             },
             {
-                path: 'details',
-                component: Details
+                path: 'productList',
+                component: ProductList
+            },
+            {
+                path: 'productDetail',
+                component: ProductDetail
             }
         ]
     },
